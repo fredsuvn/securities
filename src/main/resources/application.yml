@@ -1,0 +1,18 @@
+
+
+
+app:
+  instanceId: 00000
+
+port:
+  http:
+    port: 8080
+    session:
+      timeout: 5 * 60 * 1000
+
+
+async:
+  corePoolSize: 5
+  maxPoolSize: 100
+  queueCapacity: 100
+  keepAliveSeconds: 60

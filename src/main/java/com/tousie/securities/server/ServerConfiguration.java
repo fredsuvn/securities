@@ -1,4 +1,4 @@
-package com.tousie.securities.configuration;
+package com.tousie.securities.server;
 
 import com.sonluo.spongebob.spring.server.Server;
 import org.springframework.beans.BeansException;

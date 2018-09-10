@@ -1,6 +1,7 @@
-package com.tousie.securities.common;
+package com.tousie.securities.utils;
 
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Randoms {
 
@@ -10,5 +11,9 @@ public class Randoms {
             result[i] = range.charAt(random.nextInt(length));
         }
         return new String(result);
+    }
+
+    public static String ofRange(String range, int length) {
+        return ofRange(ThreadLocalRandom.current(), range, length);
     }
 }
