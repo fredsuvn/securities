@@ -24,6 +24,8 @@ public class HttpSession implements Session {
 
     private final HttpChannel channel;
 
+    private boolean alive = true;
+
     public HttpSession(javax.servlet.http.HttpSession httpSession, HttpPortProperties httpPortProperties) {
         this.httpPortProperties = httpPortProperties;
         this.httpSession = httpSession;
@@ -57,23 +59,21 @@ public class HttpSession implements Session {
 
     @Override
     public boolean isAlive() {
-        long last = httpSession.getLastAccessedTime();
-        long liveTo = last + httpPortProperties.getSessionTimeoutInMinutes() * 60 * 1000;
-        return liveTo > System.currentTimeMillis();
-    }
-
-    @Override
-    public void beat() {
-        httpSession.setMaxInactiveInterval(httpSession.getMaxInactiveInterval() * 2);
+        return alive;
     }
 
     @Override
     public void close() {
         try {
+            alive = false;
             httpSession.invalidate();
         } catch (Exception e) {
             // If has been invalidated...
         }
+    }
+
+    void setClose() {
+        alive = false;
     }
 
     @Override
@@ -142,8 +142,8 @@ public class HttpSession implements Session {
         }
 
         @Override
-        public long createTime() {
-            return session.createTime();
+        public boolean isOpen() {
+            return session.isAlive();
         }
 
         @Override
@@ -154,6 +154,11 @@ public class HttpSession implements Session {
         @Override
         public void push(Object message) {
             throw new UnsupportedOperationException("Http channel do not support push message.");
+        }
+
+        @Override
+        public void close() {
+            session.close();
         }
     }
 }

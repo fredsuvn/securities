@@ -64,8 +64,8 @@ public class HttpSessionListener implements javax.servlet.http.HttpSessionListen
 
     @Override
     public void sessionDestroyed(HttpSessionEvent se) {
-//        com.tousie.securities.port.http.session.HttpSession session =
-//                (com.tousie.securities.port.http.session.HttpSession) se.getSession().getAttribute(Session.class.getName());
-//        session.close();
+        com.tousie.securities.port.http.session.HttpSession session =
+                (com.tousie.securities.port.http.session.HttpSession) se.getSession().getAttribute(Session.class.getName());
+        session.setClose();
     }
 }
