@@ -1,11 +1,9 @@
-package com.tousie.securities.common.task;
+package com.tousie.securities.common.async;
 
 import com.tousie.securities.common.mdc.MdcService;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.util.concurrent.ListenableFuture;
 
@@ -16,20 +14,10 @@ import java.util.concurrent.Future;
 
 @Configuration
 @EnableAsync
-@EnableScheduling
-public class TaskConfiguration {
+public class AsyncConfiguration {
 
-    @Value("${async.corePoolSize}")
-    private int corePoolSize;
-
-    @Value("${async.maxPoolSize}")
-    private int maxPoolSize;
-
-    @Value("${async.queueCapacity}")
-    private int queueCapacity;
-
-    @Value("${async.keepAliveSeconds}")
-    private int keepAliveSeconds;
+    @Resource
+    private AsyncProperties asyncProperties;
 
     @Resource
     private MdcService mdcService;
@@ -37,11 +25,11 @@ public class TaskConfiguration {
     @Bean
     public Executor asyncExecutor() {
         ThreadPoolTaskExecutor executor = new AsyncExecutor();
-        executor.setCorePoolSize(corePoolSize);
-        executor.setMaxPoolSize(maxPoolSize);
-        executor.setQueueCapacity(queueCapacity);
-        executor.setKeepAliveSeconds(keepAliveSeconds);
-        executor.setThreadNamePrefix("Async-");
+        executor.setCorePoolSize(asyncProperties.getCorePoolSize());
+        executor.setMaxPoolSize(asyncProperties.getMaxPoolSize());
+        executor.setQueueCapacity(asyncProperties.getQueueCapacity());
+        executor.setKeepAliveSeconds(asyncProperties.getKeepAliveSeconds());
+        executor.setThreadNamePrefix(asyncProperties.getThreadNamePrefix());
         executor.initialize();
         return executor;
     }

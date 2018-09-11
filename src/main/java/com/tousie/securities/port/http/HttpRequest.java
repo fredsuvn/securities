@@ -35,6 +35,11 @@ public class HttpRequest implements Request {
     }
 
     @Override
+    public String getProtocol() {
+        return HttpConstants.PROTOCOL;
+    }
+
+    @Override
     public String getUrl() {
         return url;
     }

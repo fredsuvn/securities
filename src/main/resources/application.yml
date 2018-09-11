@@ -1,14 +1,12 @@
-
-
-
 app:
   instanceId: 00000
 
 port:
   http:
-    port: 8080
-    session:
-      timeout: 5 * 60 * 1000
+    port: 8088
+    session-timeout-in-minutes: 1
+  websocket:
+    session-timeout-in-minutes: 5
 
 
 async:
@@ -16,3 +14,9 @@ async:
   maxPoolSize: 100
   queueCapacity: 100
   keepAliveSeconds: 60
+  threadNamePrefix: Async-
+
+scheduling:
+  session:
+    mdc-prefix: clrss
+    corn: 0/100 * * * * *
