@@ -9,7 +9,6 @@ import org.springframework.util.concurrent.ListenableFuture;
 
 import javax.annotation.Resource;
 import java.util.concurrent.Callable;
-import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
 
 @Configuration
@@ -23,7 +22,7 @@ public class AsyncConfiguration {
     private MdcService mdcService;
 
     @Bean
-    public Executor asyncExecutor() {
+    public ThreadPoolTaskExecutor asyncExecutor() {
         ThreadPoolTaskExecutor executor = new AsyncExecutor();
         executor.setCorePoolSize(asyncProperties.getCorePoolSize());
         executor.setMaxPoolSize(asyncProperties.getMaxPoolSize());

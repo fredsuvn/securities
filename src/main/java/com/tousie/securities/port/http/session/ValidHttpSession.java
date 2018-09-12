@@ -4,32 +4,28 @@ import com.sonluo.spongebob.spring.server.Attributes;
 import com.sonluo.spongebob.spring.server.Channel;
 import com.sonluo.spongebob.spring.server.Session;
 import com.sonluo.spongebob.spring.server.impl.DefaultAttributes;
+import com.sonluo.spongebob.spring.utils.SessionUtils;
 import com.tousie.securities.port.http.HttpConstants;
-import com.tousie.securities.port.http.HttpPortProperties;
 
 import javax.annotation.Nullable;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 
 /**
  * @author sunqian
  */
-public class HttpSession implements Session {
+public class ValidHttpSession implements Session {
 
-    private final HttpPortProperties httpPortProperties;
+    private volatile javax.servlet.http.HttpSession httpSession;
+    private volatile Attributes attributes = new DefaultAttributes();
 
-    private final javax.servlet.http.HttpSession httpSession;
-    private final Attributes attributes = new DefaultAttributes();
+    private volatile Channel channel;
+    private volatile Map<String, Channel> channelMap;
 
-    private final HttpChannel channel;
-
-    private boolean alive = true;
-
-    public HttpSession(javax.servlet.http.HttpSession httpSession, HttpPortProperties httpPortProperties) {
-        this.httpPortProperties = httpPortProperties;
+    public ValidHttpSession(javax.servlet.http.HttpSession httpSession) {
         this.httpSession = httpSession;
-        this.channel = new HttpChannel(this);
+        this.channel = SessionUtils.proxyChannel(new ValidHttpChannel(this));
+        this.channelMap = Collections.unmodifiableMap(Collections.singletonMap("", channel));
     }
 
     @Override
@@ -58,22 +54,28 @@ public class HttpSession implements Session {
     }
 
     @Override
-    public boolean isAlive() {
-        return alive;
+    public boolean isOpen() {
+        return true;
     }
 
     @Override
     public void close() {
         try {
-            alive = false;
-            httpSession.invalidate();
-        } catch (Exception e) {
+            if (httpSession != null) {
+                httpSession.invalidate();
+            }
+        } catch (IllegalStateException e) {
             // If has been invalidated...
+        } finally {
+            free();
         }
     }
 
-    void setClose() {
-        alive = false;
+    private void free() {
+        httpSession = null;
+        attributes = null;
+        channel = null;
+        channelMap = null;
     }
 
     @Override
@@ -92,14 +94,9 @@ public class HttpSession implements Session {
         return containsChannel(channelId) ? channel : null;
     }
 
-    private Collection<Channel> collection = null;
-
     @Override
-    public Collection<Channel> getAllChannels() {
-        if (collection == null) {
-            collection = Collections.unmodifiableCollection(Collections.singleton(channel));
-        }
-        return collection;
+    public Map<String, Channel> getAllChannels() {
+        return channelMap;
     }
 
     @Override
@@ -128,11 +125,11 @@ public class HttpSession implements Session {
         return attributes.getAttributes();
     }
 
-    private static class HttpChannel implements Channel {
+    private static class ValidHttpChannel implements Channel {
 
-        private final HttpSession session;
+        private volatile ValidHttpSession session;
 
-        HttpChannel(HttpSession session) {
+        ValidHttpChannel(ValidHttpSession session) {
             this.session = session;
         }
 
@@ -143,7 +140,7 @@ public class HttpSession implements Session {
 
         @Override
         public boolean isOpen() {
-            return session.isAlive();
+            return true;
         }
 
         @Override
@@ -158,7 +155,14 @@ public class HttpSession implements Session {
 
         @Override
         public void close() {
-            session.close();
+            if (session != null) {
+                session.close();
+            }
+            free();
+        }
+
+        private void free() {
+            session = null;
         }
     }
 }

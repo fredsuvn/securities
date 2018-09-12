@@ -15,13 +15,13 @@ public class HttpSessionAttributeListener implements javax.servlet.http.HttpSess
 
     @Override
     public void attributeAdded(HttpSessionBindingEvent se) {
-//        HttpSession session = (HttpSession) se.getSession().getAttribute(Session.class.getName());
+//        ValidHttpSession session = (ValidHttpSession) se.getSession().getAttribute(Session.class.getName());
 //        session.setAttribute(se.getName(), se.getValue());
     }
 
     @Override
     public void attributeRemoved(HttpSessionBindingEvent se) {
-//        HttpSession session = (HttpSession) se.getSession().getAttribute(Session.class.getName());
+//        ValidHttpSession session = (ValidHttpSession) se.getSession().getAttribute(Session.class.getName());
 //        session.removeAttribute(se.getName());
     }
 

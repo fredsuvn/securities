@@ -31,8 +31,8 @@ public class TestService {
         ResponseTest responseTest = new ResponseTest();
         Session session = request.getSession(true);
         logger.info("Session.id = {}.", session.getId());
-        responseTest.setBar(request.getContent().getBar());
-        responseTest.setFoo(request.getContent().getFoo());
+//        responseTest.setBar(request.getContent().getBar());
+//        responseTest.setFoo(request.getContent().getFoo());
         return responseTest;
     }
 

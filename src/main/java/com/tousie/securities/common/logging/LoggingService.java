@@ -17,4 +17,8 @@ public class LoggingService {
     public void logDestroySession(Logger logger, Session session) {
         logger.info("Destroy session, id = {}, protocol = {}.", session.getId(), session.getProtocol());
     }
+
+    public void logDestroySession(Logger logger, String id, String protocol) {
+        logger.info("Destroy session, id = {}, protocol = {}.", id, protocol);
+    }
 }

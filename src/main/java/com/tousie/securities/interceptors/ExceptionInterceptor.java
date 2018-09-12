@@ -3,11 +3,12 @@ package com.tousie.securities.interceptors;
 import com.sonluo.spongebob.spring.server.Request;
 import com.sonluo.spongebob.spring.server.ServiceCallExceptionInterceptor;
 import com.sonluo.spongebob.spring.server.ServiceNotFoundException;
+import com.tousie.securities.common.status.StatusEnum;
 import com.tousie.securities.exception.BusinessException;
-import com.tousie.securities.message.MessageService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.util.Map;
 
 /**
@@ -16,17 +17,25 @@ import java.util.Map;
 @Component
 public class ExceptionInterceptor implements ServiceCallExceptionInterceptor {
 
-    @Resource
-    private MessageService messageService;
+    private static final Logger logger = LoggerFactory.getLogger(ExceptionInterceptor.class);
 
     @Override
     public Object doIntercept(Request request, Throwable throwable, Map<Object, Object> requestLocal) {
         if (throwable instanceof ServiceNotFoundException) {
-            throw (ServiceNotFoundException) throwable;
+            return StatusEnum.SERVICE_NOT_FOUND.toStatus();
         }
         if (throwable instanceof BusinessException) {
-//            return messageService.buildMessage(request.get)
+            logger.info("Business exception: {}", throwable.getMessage());
+            StatusEnum statusEnum = StatusEnum.of(((BusinessException) throwable).getCode());
+            if (statusEnum == null) {
+                return StatusEnum.UNKNOWN_ERROR.toStatus();
+            }
+            statusEnum = statusEnum.toPublic();
+            return statusEnum.toPublic().toStatus();
         }
-        return null;
+        if (throwable instanceof Exception) {
+            logger.error("Exception occurs!", throwable);
+        }
+        return StatusEnum.INTERNAL_ERROR.toStatus();
     }
 }

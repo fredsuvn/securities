@@ -5,18 +5,23 @@ port:
   http:
     port: 8088
     session-timeout-in-minutes: 1
+    background-process-delay-in-seconds: 60
   websocket:
-    session-timeout-in-minutes: 5
+    session-timeout-in-minutes: 1
+    max-message-log-width: 80
+    scheduling:
+      mdc-prefix: clrws
+      cron: 0/30 * * * * *
 
 
 async:
-  corePoolSize: 5
+  corePoolSize: 1
   maxPoolSize: 100
   queueCapacity: 100
   keepAliveSeconds: 60
   threadNamePrefix: Async-
 
 scheduling:
-  session:
-    mdc-prefix: clrss
-    corn: 0/100 * * * * *
+#  session:
+#    mdc-prefix: clrss
+#    corn: 0/100 * * * * *

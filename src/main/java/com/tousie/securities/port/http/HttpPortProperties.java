@@ -14,6 +14,8 @@ public class HttpPortProperties {
 
     private int sessionTimeoutInMinutes;
 
+    private int backgroundProcessDelayInSeconds;
+
     public int getPort() {
         return port;
     }
@@ -28,5 +30,13 @@ public class HttpPortProperties {
 
     public void setSessionTimeoutInMinutes(int sessionTimeoutInMinutes) {
         this.sessionTimeoutInMinutes = sessionTimeoutInMinutes;
+    }
+
+    public int getBackgroundProcessDelayInSeconds() {
+        return backgroundProcessDelayInSeconds;
+    }
+
+    public void setBackgroundProcessDelayInSeconds(int backgroundProcessDelayInSeconds) {
+        this.backgroundProcessDelayInSeconds = backgroundProcessDelayInSeconds;
     }
 }

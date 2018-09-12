@@ -1,5 +1,6 @@
 package com.tousie.securities.port.http;
 
+import com.google.common.base.Charsets;
 import org.apache.catalina.Context;
 import org.springframework.boot.web.embedded.tomcat.ConfigurableTomcatWebServerFactory;
 import org.springframework.boot.web.embedded.tomcat.TomcatContextCustomizer;
@@ -21,10 +22,14 @@ public class HttpPortConfiguration {
             @Override
             public void customize(ConfigurableTomcatWebServerFactory factory) {
                 factory.setPort(httpPortProperties.getPort());
+                factory.setUriEncoding(Charsets.UTF_8);
                 factory.addContextCustomizers(new TomcatContextCustomizer() {
                     @Override
                     public void customize(Context context) {
                         context.setSessionTimeout(httpPortProperties.getSessionTimeoutInMinutes());
+                        context.setRequestCharacterEncoding("UTF-8");
+                        context.setResponseCharacterEncoding("UTF-8");
+                        context.setBackgroundProcessorDelay(httpPortProperties.getBackgroundProcessDelayInSeconds());
                     }
                 });
             }

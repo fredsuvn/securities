@@ -1,23 +1,48 @@
 package com.tousie.securities.exception;
 
+import com.tousie.securities.common.status.StatusEnum;
+
+import javax.annotation.Nullable;
+
 /**
  * @author sunqian
  */
 public class BusinessException extends RuntimeException {
 
+    private static String buildMessage(String code, String desc) {
+        return "Code: " + code + ", Description: " + desc + "";
+    }
+
+    private final String code;
+
+    @Nullable
+    private final String desc;
+
+    public BusinessException(String code, @Nullable String desc, @Nullable Throwable cause) {
+        super(buildMessage(code, desc), cause);
+        this.code = code;
+        this.desc = desc;
+    }
+
     public BusinessException() {
-        super();
+        this(StatusEnum.UNKNOWN_ERROR);
     }
 
-    public BusinessException(String message) {
-        super(message);
+    public BusinessException(StatusEnum statusEnum) {
+        this(statusEnum, null);
     }
 
-    public BusinessException(Throwable cause) {
-        super(cause);
+    public BusinessException(StatusEnum statusEnum, Throwable cause) {
+        this(statusEnum.getCode(), statusEnum.getDesc(), cause);
     }
 
-    public BusinessException(String message, Throwable cause) {
-        super(message, cause);
+    public String getCode() {
+        return code;
     }
+
+    @Nullable
+    public String getDesc() {
+        return desc;
+    }
+
 }
