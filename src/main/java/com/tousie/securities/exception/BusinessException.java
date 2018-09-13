@@ -1,5 +1,6 @@
 package com.tousie.securities.exception;
 
+import com.tousie.securities.common.status.Status;
 import com.tousie.securities.common.status.StatusEnum;
 
 import javax.annotation.Nullable;
@@ -34,6 +35,14 @@ public class BusinessException extends RuntimeException {
 
     public BusinessException(StatusEnum statusEnum, Throwable cause) {
         this(statusEnum.getCode(), statusEnum.getDesc(), cause);
+    }
+
+    public BusinessException(Status status) {
+        this(status, null);
+    }
+
+    public BusinessException(Status status, Throwable cause) {
+        this(status.getCode(), status.getDesc(), cause);
     }
 
     public String getCode() {

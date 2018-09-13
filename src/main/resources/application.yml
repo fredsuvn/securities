@@ -1,5 +1,5 @@
 app:
-  instanceId: 00000
+  instanceId: "00000"
 
 port:
   http:
@@ -21,7 +21,44 @@ async:
   keepAliveSeconds: 60
   threadNamePrefix: Async-
 
+
+cache:
+  expire-after-access-in-millis: 600000
+  maximum-size: 10000
+  concurrency-level: 64
+
 scheduling:
 #  session:
 #    mdc-prefix: clrss
 #    corn: 0/100 * * * * *
+
+
+spring:
+  datasource:
+    url: jdbc:mysql://mysql.cogician.com:3306/securities?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true
+    username: root
+    password: pingguoSB0
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initialSize: 5
+      max-active: 10
+      min-idle: 10
+      max-wait: 10000
+      web-stat-filter.enabled: true
+      stat-view-servlet:
+        enabled: true
+        login-username: pingguoSB0
+        login-password: pingguoSB0
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  mapper-locations:
+    - classpath:com/tousie/securities/mapper/**/*.xml
+
+mapper:
+  mappers:
+    - tk.mybatis.mapper.common.Mapper
+  not-empty: false
+  identity: MYSQL
+

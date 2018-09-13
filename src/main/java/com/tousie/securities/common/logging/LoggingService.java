@@ -21,4 +21,12 @@ public class LoggingService {
     public void logDestroySession(Logger logger, String id, String protocol) {
         logger.info("Destroy session, id = {}, protocol = {}.", id, protocol);
     }
+
+    public void logAddCache(Logger logger, String key) {
+        logger.info("Add cache: {}.", key);
+    }
+
+    public void logRemoveCache(Logger logger, String key) {
+        logger.info("Remove cache: {}.", key);
+    }
 }
