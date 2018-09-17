@@ -12,7 +12,7 @@ public class Status {
     @Nullable
     private final String desc;
 
-    Status(String code, @Nullable String desc) {
+    public Status(String code, @Nullable String desc) {
         this.code = code;
         this.desc = desc;
     }

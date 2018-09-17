@@ -16,7 +16,7 @@ public class BeginRequestInterceptor implements ServiceCallInterceptor {
     }
 
     @Override
-    public void doIntercept(Request request, @Nullable Object result, Map<Object, Object> requestLocal) {
+    public void doIntercept(Request request, Object[] args, @Nullable Object result, Map<Object, Object> requestLocal) {
         requestLocal.put("request-time", System.currentTimeMillis());
         logger.info("Request url = {}, protocol = {}.", request.getUrl(), request.getProtocol());
     }

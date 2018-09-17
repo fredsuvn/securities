@@ -24,7 +24,7 @@ public class MessageService {
     @Nullable
     public ResponseMessage toResponseMessage(@Nullable Object data) {
         if (data == null) {
-            return null;
+            return toResponseMessage(StatusEnum.OK, null);
         }
         if (data instanceof Status) {
             return toResponseMessage(((Status) data).getCode(), ((Status) data).getDesc(), null);
@@ -90,7 +90,8 @@ public class MessageService {
     @Nullable
     public BiResponseMessage toBiResponseMessage(@Nullable String respondedId, @Nullable Object data) {
         if (data == null) {
-            return null;
+            return toBiResponseMessage(respondedId, StatusEnum.OK, null);
+
         }
         if (data instanceof Status) {
             return toBiResponseMessage(respondedId, ((Status) data).getCode(), ((Status) data).getDesc(), null);

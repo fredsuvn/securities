@@ -89,10 +89,8 @@ public class WebSocketPort implements ApplicationContextAware {
         }
         Request request = new WebSocketRequest(requestMessage, session, webSocketSession);
         Object result = server.doService(request);
-        if (result != null) {
-            BiResponseMessage response = messageService.toBiResponseMessage(requestMessage.getId(), result);
-            pushMessage(session, response);
-        }
+        BiResponseMessage response = messageService.toBiResponseMessage(requestMessage.getId(), result);
+        pushMessage(session, response);
         mdcService.removeRequestId();
     }
 

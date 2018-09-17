@@ -15,7 +15,7 @@ public class EndRequestInterceptor implements ServiceCallInterceptor {
     }
 
     @Override
-    public void doIntercept(Request request, @Nullable Object result, Map<Object, Object> requestLocal) {
+    public void doIntercept(Request request, Object[] args, @Nullable Object result, Map<Object, Object> requestLocal) {
         long now = System.currentTimeMillis();
         long begin = (Long) requestLocal.get("request-time");
         logger.info("End request {}, cost {} ms.", request.getUrl(), (now - begin));

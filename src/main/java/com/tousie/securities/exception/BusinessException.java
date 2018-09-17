@@ -19,6 +19,12 @@ public class BusinessException extends RuntimeException {
     @Nullable
     private final String desc;
 
+    public BusinessException(String code, @Nullable String desc) {
+        super(buildMessage(code, desc), null);
+        this.code = code;
+        this.desc = desc;
+    }
+
     public BusinessException(String code, @Nullable String desc, @Nullable Throwable cause) {
         super(buildMessage(code, desc), cause);
         this.code = code;

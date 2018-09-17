@@ -2,6 +2,7 @@ package com.tousie.securities.service.account.data;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Date;
 
 @Table
 public class UserInfo {
@@ -9,9 +10,12 @@ public class UserInfo {
     @Id
     private String id;
     private String userName;
-    private String mailAddress;
     private String password;
+    private String mail;
     private String phone;
+    private String status;
+    private Date createDate;
+//    private Date lastLoginTime;
 
     public String getId() {
         return id;
@@ -29,14 +33,6 @@ public class UserInfo {
         this.userName = userName;
     }
 
-    public String getMailAddress() {
-        return mailAddress;
-    }
-
-    public void setMailAddress(String mailAddress) {
-        this.mailAddress = mailAddress;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -45,11 +41,35 @@ public class UserInfo {
         this.password = password;
     }
 
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
     public String getPhone() {
         return phone;
     }
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
 }

@@ -22,7 +22,7 @@ public class LoginInterceptor implements ServiceCallInterceptor {
     }
 
     @Override
-    public void doIntercept(Request request, @Nullable Object result, Map<Object, Object> requestLocal) {
+    public void doIntercept(Request request, Object[] args, @Nullable Object result, Map<Object, Object> requestLocal) {
         Session session = request.getSession(true);
 //        if (session == null || !session.isOpen()) {
             throw new BusinessException(StatusEnum.NEED_LOGIN);

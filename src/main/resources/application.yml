@@ -3,7 +3,7 @@ app:
 
 port:
   http:
-    port: 8088
+    port: 18088
     session-timeout-in-minutes: 1
     background-process-delay-in-seconds: 60
   websocket:
@@ -38,6 +38,9 @@ spring:
     url: jdbc:mysql://mysql.cogician.com:3306/securities?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true
     username: root
     password: pingguoSB0
+#    url: jdbc:mysql://10.2.30.73:3306/abtest?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true
+#    username: root
+#    password: Aldx2897#
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
       initialSize: 5

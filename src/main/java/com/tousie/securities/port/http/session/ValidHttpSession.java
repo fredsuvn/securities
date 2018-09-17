@@ -106,22 +106,22 @@ public class ValidHttpSession implements Session {
 
     @Nullable
     @Override
-    public Object getAttribute(String name) {
-        return attributes.getAttribute(name);
+    public Object getAttribute(Object key) {
+        return attributes.getAttribute(key);
     }
 
     @Override
-    public void setAttribute(String name, Object attribute) {
-        attributes.setAttribute(name, attribute);
+    public void setAttribute(Object key, Object attribute) {
+        attributes.setAttribute(key, attribute);
     }
 
     @Override
-    public void removeAttribute(String name) {
-        attributes.removeAttribute(name);
+    public void removeAttribute(Object key) {
+        attributes.removeAttribute(key);
     }
 
     @Override
-    public Map<String, Object> getAttributes() {
+    public Map<Object, Object> getAttributes() {
         return attributes.getAttributes();
     }
 
