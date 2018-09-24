@@ -1,4 +1,4 @@
-package com.tousie.securities.service.account;
+package com.tousie.securities.common.verifycode.sender;
 
 import com.alibaba.fastjson.JSON;
 import com.aliyuncs.DefaultAcsClient;
@@ -8,14 +8,18 @@ import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
 import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Component;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-@Component
-public class UserAsync {
+import java.util.List;
 
-    @Async
-    public void senMessageForPhone(String phone) {
+public class AliSender implements Sender {
+
+    private static final Logger logger = LoggerFactory.getLogger(AliSender.class);
+
+    @Override
+    public boolean send(List<String> phones, String code) {
         try {
             final String product = "Dysmsapi";//短信API产品名称（短信产品名固定，无需修改）
             final String domain = "dysmsapi.aliyuncs.com";//短信API产品域名（接口地址固定，无需修改）
@@ -32,7 +36,7 @@ public class UserAsync {
             //使用post提交
             request.setMethod(MethodType.POST);
             //必填:待发送手机号。支持以逗号分隔的形式进行批量调用，批量上限为1000个手机号码,批量调用相对于单条调用及时性稍有延迟,验证码类型的短信推荐使用单条调用的方式；发送国际/港澳台消息时，接收号码格式为00+国际区号+号码，如“0085200000000”
-            request.setPhoneNumbers("15251897368,13603094877");
+            request.setPhoneNumbers(StringUtils.join(phones, ","));
             //必填:短信签名-可在短信控制台中找到
             request.setSignName("松萝测试");
             //必填:短信模板-可在短信控制台中找到，发送国际/港澳台消息时，请使用国际/港澳台短信模版
@@ -48,11 +52,14 @@ public class UserAsync {
             SendSmsResponse sendSmsResponse = acsClient.getAcsResponse(request);
             System.out.println(JSON.toJSONString(sendSmsResponse));
             if (sendSmsResponse.getCode() != null && sendSmsResponse.getCode().equals("OK")) {
-                //请求成功
-
+                return true;
+            } else {
+                logger.warn("Send message wrong for phones {} with code {}, because: {}", phones, code, sendSmsResponse.getMessage());
+                return false;
             }
         } catch (Exception e) {
-
+            logger.error("Send message error for phones {} with code {}.", phones, code, e);
+            return false;
         }
     }
 }

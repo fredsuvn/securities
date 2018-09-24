@@ -30,7 +30,7 @@ public class ValidHttpSession implements Session {
 
     @Override
     public String getId() {
-        return httpSession.getId();
+        return "http-" + httpSession.getId();
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.tousie.securities.port.websocket;
 
+import com.tousie.securities.common.async.SchedulingProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -11,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 public class WebSocketPortProperties {
 
     private int sessionTimeoutInMinutes;
-    private Scheduling scheduling;
+    private SchedulingProperties scheduling;
     private int maxMessageLogWidth;
 
     public int getSessionTimeoutInMinutes() {
@@ -22,11 +23,11 @@ public class WebSocketPortProperties {
         this.sessionTimeoutInMinutes = sessionTimeoutInMinutes;
     }
 
-    public Scheduling getScheduling() {
+    public SchedulingProperties getScheduling() {
         return scheduling;
     }
 
-    public void setScheduling(Scheduling scheduling) {
+    public void setScheduling(SchedulingProperties scheduling) {
         this.scheduling = scheduling;
     }
 
@@ -36,27 +37,5 @@ public class WebSocketPortProperties {
 
     public void setMaxMessageLogWidth(int maxMessageLogWidth) {
         this.maxMessageLogWidth = maxMessageLogWidth;
-    }
-
-    public static class Scheduling{
-
-        private String mdcPrefix;
-        private String cron;
-
-        public String getMdcPrefix() {
-            return mdcPrefix;
-        }
-
-        public void setMdcPrefix(String mdcPrefix) {
-            this.mdcPrefix = mdcPrefix;
-        }
-
-        public String getCron() {
-            return cron;
-        }
-
-        public void setCron(String cron) {
-            this.cron = cron;
-        }
     }
 }

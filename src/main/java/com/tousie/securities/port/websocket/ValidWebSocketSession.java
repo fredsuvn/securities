@@ -38,7 +38,7 @@ public class ValidWebSocketSession implements Session {
 
     @Override
     public String getId() {
-        return webSocketSession.getId();
+        return "ws-" + webSocketSession.getId();
     }
 
     @Override

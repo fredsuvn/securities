@@ -13,7 +13,6 @@ port:
       mdc-prefix: clrws
       cron: 0/30 * * * * *
 
-
 async:
   corePoolSize: 1
   maxPoolSize: 100
@@ -21,17 +20,17 @@ async:
   keepAliveSeconds: 60
   threadNamePrefix: Async-
 
-
 cache:
   expire-after-access-in-millis: 600000
   maximum-size: 10000
   concurrency-level: 64
 
-scheduling:
-#  session:
-#    mdc-prefix: clrss
-#    corn: 0/100 * * * * *
-
+verify-code:
+  expired-in-minutes: 1
+  send-mode: mock
+  scheduling:
+    mdc-prefix: clrvc
+    cron: 0/30 * * * * *
 
 spring:
   datasource:
