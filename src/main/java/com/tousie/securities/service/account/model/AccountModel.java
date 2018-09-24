@@ -1,13 +1,11 @@
-package com.tousie.securities.service.account.data;
+package com.tousie.securities.service.account.model;
 
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-@Table
-public class AccountRecord {
+public class AccountModel {
 
-    @Id
     private String id;
     private String password;
     private String nickName;
@@ -15,10 +13,11 @@ public class AccountRecord {
     private String status;
     private String type;
     private Date createDate;
-    private String parentId;
-    private String refereeId;
-    private String managerId;
+    private AccountModel parent;
+    private AccountModel referee;
+    private AccountModel manager;
     private Long amt;
+    private List<AccountModel> subAccount = new ArrayList<>();
 
     public String getId() {
         return id;
@@ -76,28 +75,28 @@ public class AccountRecord {
         this.createDate = createDate;
     }
 
-    public String getParentId() {
-        return parentId;
+    public AccountModel getParent() {
+        return parent;
     }
 
-    public void setParentId(String parentId) {
-        this.parentId = parentId;
+    public void setParent(AccountModel parent) {
+        this.parent = parent;
     }
 
-    public String getRefereeId() {
-        return refereeId;
+    public AccountModel getReferee() {
+        return referee;
     }
 
-    public void setRefereeId(String refereeId) {
-        this.refereeId = refereeId;
+    public void setReferee(AccountModel referee) {
+        this.referee = referee;
     }
 
-    public String getManagerId() {
-        return managerId;
+    public AccountModel getManager() {
+        return manager;
     }
 
-    public void setManagerId(String managerId) {
-        this.managerId = managerId;
+    public void setManager(AccountModel manager) {
+        this.manager = manager;
     }
 
     public Long getAmt() {
@@ -106,5 +105,13 @@ public class AccountRecord {
 
     public void setAmt(Long amt) {
         this.amt = amt;
+    }
+
+    public List<AccountModel> getSubAccount() {
+        return subAccount;
+    }
+
+    public void setSubAccount(List<AccountModel> subAccount) {
+        this.subAccount = subAccount;
     }
 }

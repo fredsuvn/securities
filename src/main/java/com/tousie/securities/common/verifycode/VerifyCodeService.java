@@ -4,7 +4,7 @@ import com.tousie.securities.common.AppConstants;
 import com.tousie.securities.common.async.AsyncService;
 import com.tousie.securities.common.mdc.MdcService;
 import com.tousie.securities.common.verifycode.sender.Sender;
-import com.tousie.securities.mapper.VerifyCodeInfoMapper;
+import com.tousie.securities.mapper.VerifyCodeMapper;
 import com.tousie.securities.service.account.data.VerifyCodeRecord;
 import com.tousie.securities.utils.Randoms;
 import org.apache.commons.collections.MapUtils;
@@ -34,7 +34,7 @@ public class VerifyCodeService {
     private MdcService mdcService;
 
     @Resource
-    private VerifyCodeInfoMapper verifyCodeInfoMapper;
+    private VerifyCodeMapper verifyCodeMapper;
 
     @Resource
     private AsyncService asyncService;
@@ -62,7 +62,7 @@ public class VerifyCodeService {
             verifyCodeRecord.setServiceId(serviceId);
             verifyCodeRecord.setPhone(phone);
             verifyCodeRecord.setCode(verifyCode.getCode());
-            verifyCodeInfoMapper.insert(verifyCodeRecord);
+            verifyCodeMapper.insert(verifyCodeRecord);
         });
     }
 

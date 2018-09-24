@@ -24,6 +24,8 @@ public class CacheService {
 
     private static final Logger logger = LoggerFactory.getLogger(CacheService.class);
 
+    private static final Object NULL = new Object();
+
     @Resource
     private CacheProperties cacheProperties;
 
@@ -60,7 +62,7 @@ public class CacheService {
     @Nullable
     public <T> T getCache(Object key, Class<T> type) {
         Object obj = cache.getIfPresent(key);
-        if (obj == null) {
+        if (obj == null || obj == NULL) {
             return null;
         }
         return beanOperator.convert(obj, type);
@@ -69,7 +71,7 @@ public class CacheService {
     @Nullable
     public <T> T getCache(Object key, Type type) {
         Object obj = cache.getIfPresent(key);
-        if (obj == null) {
+        if (obj == null || obj == NULL) {
             return null;
         }
         return beanOperator.convert(obj, type);
@@ -79,27 +81,31 @@ public class CacheService {
         cache.put(key, value);
     }
 
+    @Nullable
     public <T> T getCache(Object key, Supplier<T> supplier) {
         try {
-            return (T) cache.get(key, supplier::get);
+            Object value = cache.get(key, () -> {
+                Object v = supplier.get();
+                if (v == null) {
+                    return NULL;
+                }
+                return v;
+            });
+            return value == NULL ? null : (T) value;
         } catch (ExecutionException e) {
             throw new IllegalStateException(e);
         }
     }
 
+    @Nullable
     public <T> T getCache(Object key, Supplier<T> supplier, Class<T> type) {
-        try {
-            return beanOperator.convert(cache.get(key, supplier::get), type);
-        } catch (ExecutionException e) {
-            throw new IllegalStateException(e);
-        }
+        Object value = getCache(key, supplier);
+        return value == null ? null : beanOperator.convert(value, type);
     }
 
+    @Nullable
     public <T> T getCache(Object key, Supplier<T> supplier, Type type) {
-        try {
-            return beanOperator.convert(cache.get(key, supplier::get), type);
-        } catch (ExecutionException e) {
-            throw new IllegalStateException(e);
-        }
+        Object value = getCache(key, supplier);
+        return value == null ? null : beanOperator.convert(value, type);
     }
 }

@@ -25,6 +25,8 @@ public enum StatusEnum {
 
     //register 12xxxx
     REGISTER_PARAM_ERROR(new Status("120000", "注册参数错误")),
+    INVITE_CODE_ERROR(new Status("120001", "邀请码错误")),
+    VERIFY_CODE_ERROR(new Status("120002", "验证码错误或者超时")),
 
 
     ;
