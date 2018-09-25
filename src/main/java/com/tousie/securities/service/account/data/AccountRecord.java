@@ -12,13 +12,16 @@ public class AccountRecord {
     private String password;
     private String nickName;
     private String phone;
+    private String weixin;
     private String status;
     private String type;
     private Date createDate;
     private String parentId;
     private String refereeId;
     private String managerId;
+
     private Long amt;
+    private Long income;
 
     public String getId() {
         return id;
@@ -50,6 +53,14 @@ public class AccountRecord {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getWeixin() {
+        return weixin;
+    }
+
+    public void setWeixin(String weixin) {
+        this.weixin = weixin;
     }
 
     public String getStatus() {
@@ -106,5 +117,13 @@ public class AccountRecord {
 
     public void setAmt(Long amt) {
         this.amt = amt;
+    }
+
+    public Long getIncome() {
+        return income;
+    }
+
+    public void setIncome(Long income) {
+        this.income = income;
     }
 }

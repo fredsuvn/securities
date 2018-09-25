@@ -22,11 +22,14 @@ public enum StatusEnum {
     LOGIN_IN_WRONG(new Status("110000", "账户不存在或密码错误")),
     LOGIN_IN_WRONG_ACCOUNT(new Status("110001", "账户不存在"), LOGIN_IN_WRONG),
     LOGIN_IN_WRONG_PASSWORD(new Status("110002", "账户密码错误"), LOGIN_IN_WRONG),
+    NEED_MANAGER(new Status("110003", "你不是客户经理")),
 
     //register 12xxxx
     REGISTER_PARAM_ERROR(new Status("120000", "注册参数错误")),
     INVITE_CODE_ERROR(new Status("120001", "邀请码错误")),
     VERIFY_CODE_ERROR(new Status("120002", "验证码错误或者超时")),
+    REPEAT_PHONE(new Status("120003", "电话已经注册过")),
+    REPEAT_NAME(new Status("120004", "昵称已被使用")),
 
 
     ;

@@ -8,6 +8,7 @@ public class AccountRecordRecord {
 
     @Id
     private String id;
+    private String accountId;
     private String changeType;
     private String operationType;
     private String desc;
@@ -19,6 +20,14 @@ public class AccountRecordRecord {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
     }
 
     public String getChangeType() {
